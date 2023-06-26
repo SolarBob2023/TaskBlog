@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -26,8 +27,8 @@ class StoreController extends Controller
         } else {
             $data = $validator->validated();
             $data['password'] = Hash::make($data['password']);
-            User::firstOrCreate(['email' => $data['email'], 'login' => $data['login']], $data);
-            return response()->json(['message' => 'User successfully created']);
+            $user = User::firstOrCreate(['email' => $data['email'], 'login' => $data['login']], $data);
+            return UserResource::make($user);
         }
     }
 }

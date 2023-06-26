@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -27,7 +28,7 @@ class UpdateController extends Controller
             $data = $validator->validated();
             $data['password'] = Hash::make($data['password']);
             $auth_user->update($data);
-            return response()->json(['message' => 'User successfully changed']);
+            return UserResource::make($auth_user);
         }
     }
 }

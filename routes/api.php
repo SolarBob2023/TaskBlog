@@ -30,4 +30,15 @@ Route::group(['prefix' => 'user'], function () {
     Route::post('/',\App\Http\Controllers\User\StoreController::class);
     Route::post('/change',\App\Http\Controllers\User\UpdateController::class)->middleware('jwt.auth');
     Route::post('/delete',\App\Http\Controllers\User\DeleteController::class)->middleware('jwt.auth');
+
+    Route::group(['prefix' => 'categories', 'middleware' => 'jwt.auth'], function (){
+        Route::get('/',\App\Http\Controllers\User\Category\IndexController::class);
+        Route::get('/{category}',\App\Http\Controllers\User\Category\ShowController::class);
+        Route::post('/',\App\Http\Controllers\User\Category\StoreController::class);
+        Route::patch('/{category}',\App\Http\Controllers\User\Category\UpdateController::class);
+        Route::delete('/{category}',\App\Http\Controllers\User\Category\DeleteController::class);
+    });
+
+
+
 });
