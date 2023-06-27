@@ -49,14 +49,20 @@ Route::group(['prefix' => 'user'], function () {
         Route::get('/{post}/comments', \App\Http\Controllers\User\Post\Comment\IndexController::class);
         Route::post('/{post}/comments', \App\Http\Controllers\User\Post\Comment\StoreController::class);
 
+
+        Route::post('/{post}/likes', \App\Http\Controllers\User\Post\Like\StoreController::class);
+        Route::get('/{post}/likes', \App\Http\Controllers\User\Post\Like\IndexController::class);
+
     });
 
     Route::group(['prefix' => 'comments', 'middleware' => 'jwt.auth'], function (){
-        Route::get('/{post}/comments', \App\Http\Controllers\User\Post\Comment\IndexController::class);
         Route::delete('/{comment}', \App\Http\Controllers\User\Comment\DeleteController::class);
-        Route::post('/{comment}', \App\Http\Controllers\User\Comment\UpdateController::class);
+        Route::patch('/{comment}', \App\Http\Controllers\User\Comment\UpdateController::class);
     });
 
+    Route::group(['prefix' => 'likes', 'middleware' => 'jwt.auth'], function (){
+        Route::delete('/{like}', \App\Http\Controllers\User\Like\DeleteController::class);
+    });
 
 });
 

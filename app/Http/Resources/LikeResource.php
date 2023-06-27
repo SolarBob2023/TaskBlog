@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class UserResource extends JsonResource
+class LikeResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,13 +14,12 @@ class UserResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $hiddenElements = $this->getHidden();
+        $user = UserResource::make($this->whenLoaded('user'));
         return [
             'id' => $this->id,
-            'login' => $this->when(!in_array('login',$hiddenElements),
-                $this->login),
-            'name'=> $this->name,
-            'surname' => $this->surname,
+            'user_id' => $this->user_id,
+            'post_id' => $this->post_id,
+            'user'  => $user,
         ];
     }
 }
