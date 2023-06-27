@@ -14,8 +14,10 @@ class UserResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $hiddenElements = $this->getHidden();
         return [
-            'login' => $this->login,
+            'login' => $this->when(!in_array('login',$hiddenElements),
+                $this->login),
             'name'=> $this->name,
             'surname' => $this->surname,
         ];

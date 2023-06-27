@@ -14,12 +14,25 @@ class PostResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
+        $user = UserResource::make($this->whenLoaded('user'));
+        $category = CategoryResource::make($this->whenLoaded('category'));
+        $comments = CommentResource::collection($this->whenLoaded('comments'));
+        $hiddenElements = $this->getHidden();
+
+        $resource = [
             'id' => $this->id,
             'title' => $this->title,
-            'content' => $this->content,
-            'category_id' => $this->category_id,
-            'user_id' => $this->user_id,
+            'content' => $this->when(!in_array('content',$hiddenElements),
+                $this->content,
+                mb_substr($this->content,0,100),
+            ),
+            'category' => $category,
+            'user' => $user,
+            'comments' => $comments,
+            'comments_count' => $this->whenCounted('comments'),
         ];
+
+        return $resource;
     }
+
 }
