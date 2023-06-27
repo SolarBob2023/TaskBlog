@@ -18,7 +18,6 @@ class PostResource extends JsonResource
         $category = CategoryResource::make($this->whenLoaded('category'));
         $comments = CommentResource::collection($this->whenLoaded('comments'));
         $hiddenElements = $this->getHidden();
-
         $resource = [
             'id' => $this->id,
             'title' => $this->title,
@@ -30,6 +29,10 @@ class PostResource extends JsonResource
             'user' => $user,
             'comments' => $comments,
             'comments_count' => $this->whenCounted('comments'),
+            'likes_count' => $this->whenCounted('likes'),
+            'url' => $this->when(in_array('url',$this->getVisible() ),
+                                 'http://127.0.0.1:8000/api/posts/' . str($this->id)
+                                ),
         ];
 
         return $resource;

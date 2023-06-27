@@ -14,6 +14,7 @@ class IndexController extends Controller
         foreach ($posts as $post){
             $post->makeHidden(['content']);
             $post->loadCount('comments');
+            $post->loadCount('likes');
         }
         return PostResource::collection($posts);
     }

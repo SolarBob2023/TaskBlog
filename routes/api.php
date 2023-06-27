@@ -64,6 +64,8 @@ Route::group(['prefix' => 'user'], function () {
         Route::delete('/{like}', \App\Http\Controllers\User\Like\DeleteController::class);
     });
 
+    Route::get('/myactivity', \App\Http\Controllers\User\ActivityController::class);
+
 });
 
 Route::get('/comments/{comment}', \App\Http\Controllers\Comment\ShowController::class);
