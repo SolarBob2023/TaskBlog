@@ -8,7 +8,7 @@
 <ul>
 <li>composer install</li>
 <li>php artisan jwt:secret</li>
-<li>php artisan migrate:fresh --seed</li>
+<li>php artisan migrate --seed</li>
 <li>php artisan l5-swagger:generate</li>
 <li>php artisan serve</li>
 </ul>
