@@ -16,7 +16,6 @@ class ShowController extends Controller
         foreach ($post->comments as $comment){
             $comment->user->setHidden(['login']);
         }
-
         $post->setHidden(['category_id']);
         return PostResource::make($post);
     }
