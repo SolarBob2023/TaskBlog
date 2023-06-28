@@ -41,7 +41,9 @@ class AuthController extends Controller
      */
     public function me()
     {
-        return response()->json(UserResource::make(auth()->user()));
+        $user = auth()->user();
+        $user->setHidden(['id']);
+        return response()->json(UserResource::make($user));
     }
 
     /**

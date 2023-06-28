@@ -16,7 +16,8 @@ class UserResource extends JsonResource
     {
         $hiddenElements = $this->getHidden();
         return [
-            'id' => $this->id,
+            'id' => $this->when(!in_array('id',$hiddenElements),
+                $this->id),
             'login' => $this->when(!in_array('login',$hiddenElements),
                 $this->login),
             'name'=> $this->name,

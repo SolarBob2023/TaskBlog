@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\User\Category;
+namespace App\Http\Controllers\Category;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CategoryResource;
@@ -11,6 +11,7 @@ class IndexController extends Controller
     public function __invoke()
     {
         $categories = Category::all();
+        $categories->loadCount('posts');
         return CategoryResource::collection($categories);
     }
 }

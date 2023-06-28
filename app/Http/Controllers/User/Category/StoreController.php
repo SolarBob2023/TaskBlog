@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User\Category;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Category\StoreRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -11,19 +12,12 @@ use Illuminate\Support\Facades\Validator;
 
 class StoreController extends Controller
 {
-    public function __invoke(Request $request)
+    public function __invoke(StoreRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'title' => [ 'required', 'string', 'unique:categories'],
-        ]);
-        if ($validator->fails()) {
-            return response()->json([
-                'error' => $validator->errors(),
-            ]);
-        } else {
-            $data = $validator->validated();
-            $category = Category::firstOrCreate(['title' => $data['title']], $data);
-            return CategoryResource::make($category);
-        }
+
+        $data = $request->validated();
+        $category = Category::firstOrCreate(['title' => $data['title']], $data);
+        return CategoryResource::make($category);
+
     }
 }

@@ -12,6 +12,8 @@ class PostResource extends JsonResource
      *
      * @return array<string, mixed>
      */
+
+    public static $wrap = 'posts';
     public function toArray(Request $request): array
     {
         $user = UserResource::make($this->whenLoaded('user'));

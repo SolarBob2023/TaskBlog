@@ -9,7 +9,14 @@ class DeleteController extends Controller
 {
     public function __invoke(Post $post)
     {
-        $post->delete();
-        return response()->json(['message' => 'Post was deleted']);
+        if ($post->user_id == auth()->user()->id){
+            $post->comments()->delete();
+            $post->likes()->delete();
+            $post->delete();
+            return response()->json(['message' => 'Пост был удалён']);
+        } else {
+            return response()->json(['message' => 'Ошибка вы пытаетесь удалить чужой пост']);
+        }
+
     }
 }

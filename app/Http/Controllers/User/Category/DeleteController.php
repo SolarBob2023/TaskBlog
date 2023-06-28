@@ -10,7 +10,13 @@ class DeleteController extends Controller
 {
     public function __invoke(Category $category)
     {
-        $category->delete();
-        return response()->json(['message' => 'Category was deleted']);
+        $category->loadCount('posts');
+        if ($category->posts_count == 0){
+            $category->delete();
+            return response()->json(['message' => 'Категория была удалена']);
+        } else {
+            return response()->json(['message' => 'Ошибка - в базе даных есть посты с данной категорией']);
+        }
+
     }
 }

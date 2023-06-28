@@ -9,9 +9,8 @@ class ActivityController extends Controller
 {
     public function __invoke()
     {
-        $likedPosts = auth()->user()->likedPosts;
+        $likedPosts = auth()->user()->likedPosts()->with('comments', 'category', 'user')->get();;
         foreach ($likedPosts as $post){
-            $post->load('comments', 'category','user');
             $post->user->setHidden(['login']);
             $post->comments->setHidden(['id','post_id']);
             foreach ($post->comments as $comment){

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\StoreRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -11,24 +12,11 @@ use Illuminate\Support\Facades\Validator;
 
 class StoreController extends Controller
 {
-    public function __invoke(Request $request)
+    public function __invoke(StoreRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'login' => [ 'required', 'string', 'unique:users', 'min:6'],
-            'name'=> [ 'required', 'string', 'min:3'],
-            'surname' => [ 'required', 'string', 'min:3'],
-            'email' => [ 'required', 'string', 'email', 'unique:users'],
-            'password' => [ 'required', 'string', 'min:8'],
-        ]);
-        if ($validator->fails()) {
-            return response()->json([
-                'error' => $validator->errors(),
-            ]);
-        } else {
-            $data = $validator->validated();
-            $data['password'] = Hash::make($data['password']);
-            $user = User::firstOrCreate(['email' => $data['email'], 'login' => $data['login']], $data);
-            return UserResource::make($user);
-        }
+        $data = $request->validated();
+        $data['password'] = Hash::make($data['password']);
+        $user = User::firstOrCreate(['email' => $data['email'], 'login' => $data['login']], $data);
+        return UserResource::make($user);
     }
 }
