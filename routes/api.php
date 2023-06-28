@@ -17,6 +17,9 @@ use Illuminate\Support\Facades\Route;
 //    return $request->user();
 //});
 
+Route::get('/', function () {
+    return response()->json(['message' => 'Авторизируйтесь по адресу http://127.0.0.1:8000/api/auth/login']);
+})->name('login');
 Route::group(['middleware' => 'api','prefix' => 'auth'], function ($router) {
 
     Route::post('login', [\App\Http\Controllers\AuthController::class, 'login']);
@@ -82,6 +85,6 @@ Route::get('categories/{category}', \App\Http\Controllers\Category\ShowControlle
 //Посты
 Route::get('/posts/', \App\Http\Controllers\Post\IndexController::class);
 Route::get('/posts/{post}', \App\Http\Controllers\Post\ShowController::class);
-//просомтр коментариев
+//просомтр коментариев и лайков у поста
 Route::get('/posts/{post}/comments', \App\Http\Controllers\Post\Comment\IndexController::class);
 Route::get('/posts/{post}/likes', \App\Http\Controllers\Post\Like\IndexController::class);

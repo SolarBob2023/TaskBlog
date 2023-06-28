@@ -11,6 +11,42 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
+/**
+ *  @OA\Post(
+ *      path="/api/user/posts/{post}/likes",
+ *      summary="Добавление лайка к посту",
+ *      tags={"Лайки"},
+ *      security={{ "bearerAuth": {} }},
+ *      @OA\Parameter(
+ *          description="ID поста",
+ *          in="path",
+ *          name="post",
+ *          required=true,
+ *          example=1
+ *      ),
+ *
+ *
+ *
+ *     @OA\Response(
+ *         response=201,
+ *         description="Ok",
+ *         @OA\JsonContent(
+ *                @OA\Property(property="data", type="object",
+ *                @OA\Property(property="id", type="integer", example="1"),
+ *                @OA\Property(property="user_id", type="integer", example=1),
+ *                @OA\Property(property="post_id", type="integer", example=1),
+ *                ),
+ *
+ *         )
+ *
+ *
+ *     ),
+ *
+ * ),
+ *
+ *
+ */
+
 class StoreController extends Controller
 {
     public function __invoke(Request $request, Post $post)

@@ -1,0 +1,1102 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "My Doc Api",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/": {},
+        "/api/categories": {
+            "get": {
+                "tags": [
+                    "Категории"
+                ],
+                "summary": "Список категорий",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": "1"
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "SomeTitle"
+                                                    },
+                                                    "posts_count": {
+                                                        "type": "integer",
+                                                        "example": 20
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Авторизация",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "email": {
+                                                "type": "string",
+                                                "example": "wlehner@example.net"
+                                            },
+                                            "password": {
+                                                "type": "string",
+                                                "example": "12345678"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "access_token": {
+                                            "type": "string",
+                                            "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2F1d"
+                                        },
+                                        "token_type": {
+                                            "type": "string",
+                                            "example": "bearer"
+                                        },
+                                        "expires_in": {
+                                            "type": "integer",
+                                            "example": 20
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/me": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Информация о пользователе",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "login": {
+                                            "type": "string",
+                                            "example": "Eloise"
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Clementina"
+                                        },
+                                        "surname": {
+                                            "type": "string",
+                                            "example": "Cassin"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/auth/logout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Выйти из системы",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Successfully logged out"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/posts?page={page}": {
+            "get": {
+                "tags": [
+                    "Посты"
+                ],
+                "summary": "Список постов",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "description": "номер страницы",
+                        "required": false,
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "posts": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": "1"
+                                                            },
+                                                            "title": {
+                                                                "type": "string",
+                                                                "example": "SomeTitle"
+                                                            },
+                                                            "content": {
+                                                                "type": "string",
+                                                                "example": "SomeContent"
+                                                            },
+                                                            "category": {
+                                                                "properties": {
+                                                                    "id": {
+                                                                        "type": "integer",
+                                                                        "example": 1
+                                                                    },
+                                                                    "title": {
+                                                                        "type": "string",
+                                                                        "example": ""
+                                                                    }
+                                                                },
+                                                                "type": "object"
+                                                            },
+                                                            "comments_count": {
+                                                                "type": "integer",
+                                                                "example": 10
+                                                            },
+                                                            "likes_count": {
+                                                                "type": "string",
+                                                                "example": 5
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/posts/{post}": {
+            "get": {
+                "tags": [
+                    "Посты"
+                ],
+                "summary": "Просмотр поста",
+                "parameters": [
+                    {
+                        "name": "post",
+                        "in": "path",
+                        "description": "id поста",
+                        "required": false,
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                },
+                                                "title": {
+                                                    "type": "string",
+                                                    "example": "SomeTitle"
+                                                },
+                                                "content": {
+                                                    "type": "string",
+                                                    "example": "SomeContent"
+                                                },
+                                                "category": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "title": {
+                                                            "type": "string",
+                                                            "example": "category"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "user": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "robert"
+                                                        },
+                                                        "surname": {
+                                                            "type": "string",
+                                                            "example": "lapko"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "comments": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "user": {
+                                                                "properties": {
+                                                                    "id": {
+                                                                        "type": "integer",
+                                                                        "example": 1
+                                                                    },
+                                                                    "name": {
+                                                                        "type": "string",
+                                                                        "example": "robert"
+                                                                    },
+                                                                    "surname": {
+                                                                        "type": "string",
+                                                                        "example": "lapko"
+                                                                    }
+                                                                },
+                                                                "type": "object"
+                                                            },
+                                                            "content": {
+                                                                "type": "string",
+                                                                "example": "content"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/myactivity": {
+            "get": {
+                "tags": [
+                    "Активность"
+                ],
+                "summary": "Просмотр понравившихся постов",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                },
+                                                "title": {
+                                                    "type": "string",
+                                                    "example": "SomeTitle"
+                                                },
+                                                "content": {
+                                                    "type": "string",
+                                                    "example": "SomeContent"
+                                                },
+                                                "category": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "title": {
+                                                            "type": "string",
+                                                            "example": "category"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "user": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "robert"
+                                                        },
+                                                        "surname": {
+                                                            "type": "string",
+                                                            "example": "lapko"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "comments": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "user": {
+                                                                "properties": {
+                                                                    "id": {
+                                                                        "type": "integer",
+                                                                        "example": 1
+                                                                    },
+                                                                    "name": {
+                                                                        "type": "string",
+                                                                        "example": "robert"
+                                                                    },
+                                                                    "surname": {
+                                                                        "type": "string",
+                                                                        "example": "lapko"
+                                                                    }
+                                                                },
+                                                                "type": "object"
+                                                            },
+                                                            "content": {
+                                                                "type": "string",
+                                                                "example": "content"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/user/categories": {
+            "post": {
+                "tags": [
+                    "Категории"
+                ],
+                "summary": "Создать категорию",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "title": {
+                                                "type": "string",
+                                                "example": "Спорт"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "title": {
+                                                    "type": "string",
+                                                    "example": "Спорт"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/user/comments/{comment}": {
+            "delete": {
+                "tags": [
+                    "Комментарии"
+                ],
+                "summary": "Удаление комментария",
+                "parameters": [
+                    {
+                        "name": "comment",
+                        "in": "path",
+                        "description": "ID комментария",
+                        "required": true,
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "object",
+                                            "example": "Комментарий удалён"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/user/likes/{like}": {
+            "delete": {
+                "tags": [
+                    "Лайки"
+                ],
+                "summary": "Удаление лайка",
+                "parameters": [
+                    {
+                        "name": "like",
+                        "in": "path",
+                        "description": "ID лайка",
+                        "required": true,
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "object",
+                                            "example": "Лайк был удалён"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/user/posts/{post}/comments": {
+            "post": {
+                "tags": [
+                    "Комментарии"
+                ],
+                "summary": "Добавление комментария к посту",
+                "parameters": [
+                    {
+                        "name": "post",
+                        "in": "path",
+                        "description": "ID поста",
+                        "required": true,
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "content": {
+                                                "type": "string",
+                                                "example": "Good"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                },
+                                                "post_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "content": {
+                                                    "type": "string",
+                                                    "example": "Content"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/user/posts/{post}": {
+            "delete": {
+                "tags": [
+                    "Посты"
+                ],
+                "summary": "Удаление поста",
+                "parameters": [
+                    {
+                        "name": "post",
+                        "in": "path",
+                        "description": "ID поста",
+                        "required": true,
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "object",
+                                            "example": "Пост был удалён"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Посты"
+                ],
+                "summary": "Редактирование поста",
+                "parameters": [
+                    {
+                        "name": "post",
+                        "in": "path",
+                        "description": "ID поста",
+                        "required": true,
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "title": {
+                                                "type": "string",
+                                                "example": "Sometitle"
+                                            },
+                                            "category_id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "content": {
+                                                "type": "string",
+                                                "example": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex minus, impedit commodi nobis tempore dolores. Cupiditate deserunt temporibus, sunt quia explicabo veritatis assumenda voluptatibus quas, autem ipsa tempora magni aliquam dolorum veniam sapiente expedita recusandae aperiam soluta enim saepe reiciendis odio consequatur dolores omnis. Aliquid excepturi repellat, hic recusandae minima autem enim consectetur fuga maiores quia quidem tempore atque est ea cumque voluptatibus odit veniam ducimus. Expedita omnis molestiae, eos aliquid error saepe nesciunt magnam magni nobis earum, sit nostrum sed possimus dolor eveniet iure eligendi quam corporis cupiditate laboriosam. Molestiae suscipit unde aperiam ducimus ipsa eius voluptate quia? Nesciunt asperiores temporibus voluptates, id voluptatum, ullam accusantium ipsum eveniet totam ut impedit non aut, dolorum corporis hic cum similique exercitationem dolorem consequatur magnam cupiditate officiis. Quidem at architecto sit illum deserunt quas earum cum, fugit laboriosam excepturi similique, quod quasi distinctio, facere minus tempora dolorem! Officia illum quae inventore quidem hic omnis minima voluptate, fugit deleniti assumenda fuga repudiandae possimus, amet nulla, facilis dignissimos. Eveniet culpa neque dolores nulla sunt suscipit, voluptatum laboriosam nam libero, magni omnis ut fuga, consectetur soluta ipsum sequi labore. Dignissimos adipisci autem laborum quo exercitationem, asperiores eum rem sunt eveniet architecto, quae odit? Necessitatibus, a."
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                },
+                                                "title": {
+                                                    "type": "string",
+                                                    "example": "SomeTitle"
+                                                },
+                                                "content": {
+                                                    "type": "string",
+                                                    "example": "SomeContent"
+                                                },
+                                                "category": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "title": {
+                                                            "type": "string",
+                                                            "example": "CategoryTitle"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/user/posts/{post}/likes": {
+            "post": {
+                "tags": [
+                    "Лайки"
+                ],
+                "summary": "Добавление лайка к посту",
+                "parameters": [
+                    {
+                        "name": "post",
+                        "in": "path",
+                        "description": "ID поста",
+                        "required": true,
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                },
+                                                "user_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "post_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/user/posts": {
+            "post": {
+                "tags": [
+                    "Посты"
+                ],
+                "summary": "Создание поста",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "title": {
+                                                "type": "string",
+                                                "example": "Sometitle"
+                                            },
+                                            "category_id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "content": {
+                                                "type": "string",
+                                                "example": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex minus, impedit commodi nobis tempore dolores. Cupiditate deserunt temporibus, sunt quia explicabo veritatis assumenda voluptatibus quas, autem ipsa tempora magni aliquam dolorum veniam sapiente expedita recusandae aperiam soluta enim saepe reiciendis odio consequatur dolores omnis. Aliquid excepturi repellat, hic recusandae minima autem enim consectetur fuga maiores quia quidem tempore atque est ea cumque voluptatibus odit veniam ducimus. Expedita omnis molestiae, eos aliquid error saepe nesciunt magnam magni nobis earum, sit nostrum sed possimus dolor eveniet iure eligendi quam corporis cupiditate laboriosam. Molestiae suscipit unde aperiam ducimus ipsa eius voluptate quia? Nesciunt asperiores temporibus voluptates, id voluptatum, ullam accusantium ipsum eveniet totam ut impedit non aut, dolorum corporis hic cum similique exercitationem dolorem consequatur magnam cupiditate officiis. Quidem at architecto sit illum deserunt quas earum cum, fugit laboriosam excepturi similique, quod quasi distinctio, facere minus tempora dolorem! Officia illum quae inventore quidem hic omnis minima voluptate, fugit deleniti assumenda fuga repudiandae possimus, amet nulla, facilis dignissimos. Eveniet culpa neque dolores nulla sunt suscipit, voluptatum laboriosam nam libero, magni omnis ut fuga, consectetur soluta ipsum sequi labore. Dignissimos adipisci autem laborum quo exercitationem, asperiores eum rem sunt eveniet architecto, quae odit? Necessitatibus, a."
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                },
+                                                "title": {
+                                                    "type": "string",
+                                                    "example": "SomeTitle"
+                                                },
+                                                "content": {
+                                                    "type": "string",
+                                                    "example": "SomeContent"
+                                                },
+                                                "category": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "title": {
+                                                            "type": "string",
+                                                            "example": "CategoryTitle"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/user/register": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Регистрация",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "login": {
+                                                "type": "string",
+                                                "example": "solrbob"
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "robert"
+                                            },
+                                            "surname": {
+                                                "type": "string",
+                                                "example": "lapko"
+                                            },
+                                            "email": {
+                                                "type": "string",
+                                                "example": "admin@admin.com"
+                                            },
+                                            "password": {
+                                                "type": "string",
+                                                "example": "12345678"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                },
+                                                "login": {
+                                                    "type": "string",
+                                                    "example": "solrbob"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "robert"
+                                                },
+                                                "surname": {
+                                                    "type": "string",
+                                                    "example": "lapko"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/change": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Изменение данных пользователя",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "name": {
+                                                "type": "string",
+                                                "example": "robert"
+                                            },
+                                            "surname": {
+                                                "type": "string",
+                                                "example": "lapko"
+                                            },
+                                            "password": {
+                                                "type": "string",
+                                                "example": "12345678"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "login": {
+                                                    "type": "string",
+                                                    "example": "solrbob"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "robert"
+                                                },
+                                                "surname": {
+                                                    "type": "string",
+                                                    "example": "lapko"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        }
+    }
+}

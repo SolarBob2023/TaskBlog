@@ -13,6 +13,9 @@ class DeleteController extends Controller
     public function __invoke(Request $request)
     {
         $auth_user = auth()->user();
+        $auth_user->likes()->delete();
+        $auth_user->comments()->delete();
+        $auth_user->posts()->delete();
         $auth_user->delete();
         return response()->json(['message' => 'User was deleted']);
     }

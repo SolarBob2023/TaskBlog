@@ -6,6 +6,7 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Throwable;
@@ -53,6 +54,14 @@ class Handler extends ExceptionHandler
                 return response()->json([
                     'errors' => $e->errors()
                 ], $e->status);
+            }
+        });
+
+        $this->renderable(function (MethodNotAllowedHttpException $e, Request $request) {
+            if ($request->is('api/*')) {
+                return response()->json([
+                    'message' => $e->getMessage()
+                ], $e->getStatusCode());
             }
         });
 
