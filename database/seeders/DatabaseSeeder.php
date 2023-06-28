@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Post;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -12,11 +14,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
+        $users = \App\Models\User::factory(100)->create();
+        \App\Models\Category::factory(20)->create();
+        $posts = \App\Models\Post::factory(40)->create();
+        \App\Models\Comment::factory(100)->create();
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        foreach ($users as $user){
+            $postIds = $posts->random(5)->pluck('id');
+            $user->likedPosts()->attach($postIds);
+            $postIds = $posts->random(2)->pluck('id');
+            $user->commentedPosts()->attach($postIds,['content' => fake()->sentence(2)]);
+        }
+
+
+
     }
 }
